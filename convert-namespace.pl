@@ -44,8 +44,10 @@ sub main {
 
     sub wanted {
         my ( $content, $filename, $fullPath, $mapping, $outputDir ) = @_;
-        &convertClass( $filename, $mapping, $outputDir, $fullPath );
-        push @$content, $fullPath if $filename =~ /\.(php|yml|ss)$/;
+        &convertClass( $filename, $mapping, $outputDir, $fullPath )
+          if $filename =~ /\.(php|yml|ss)$/;
+
+        # push @$content, $fullPath if $filename =~ /\.(php|yml|ss)$/;
     }
 
     sub convertClass {
@@ -67,17 +69,28 @@ sub main {
 
         while (<$fh>) {
 
+            my $prev = $_;
             foreach my $key ( sort { length $b <=> length $a } keys %$mapping )
             {
                 my $value = $mapping->{$key};
                 next if $_ !~ /$key/;
+
                 if ( $inp =~ /\.php$/ ) {
-                    $_ =~ s/'$key\.([^']+)'/$value:class . '$1'/g;
+                    $_ =~ s/'$key\.([^']+)'/${value}::class . '$1'/g;
                 }
-                else {
+                elsif ( $inp =~ /\.ss$/ ) {
+                    $_ =~ s/(?<=<%t )$key/$value/g;
+                    say "new: $_" if $_ ne $prev;
+                }
+                elsif ( $inp =~ /\.yml$/ ) {
                     $_ =~ s/$key/$value/g;
                 }
+
                 last if $_ =~ /$key/;
+            }
+            if ( $prev ne $_ ) {
+                say "- $prev";
+                say "+ $_";
             }
             print $out $_;
         }
