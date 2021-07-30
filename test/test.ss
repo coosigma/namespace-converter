@@ -1,1 +1,1 @@
-<p class="sr-only" id="breadcrumbs-label"><%t SiteTree.BREADCRUMBSLABEL "You are here" %></p>
+<p class="sr-only" id="breadcrumbs-label"><%t SilverStripe\CMS\Model\SiteTree.BREADCRUMBSLABEL "You are here" %></p>

@@ -1,4 +1,4 @@
 create(
             'Title',
-            _t( 'KBSlideshow.Title', 'Title' )
+            _t( CS\Hauora\KBSlideshow:class . 'Title', 'Title' )
         );

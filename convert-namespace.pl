@@ -1,3 +1,5 @@
+#!/usr/bin/env perl
+#!/usr/bin/perl
 use v5.32;
 use utf8;
 use open qw(:std :utf8);
@@ -7,6 +9,7 @@ use autodie;
 use Cwd;
 use File::Find;
 use File::Path qw(make_path);
+
 use File::Spec::Functions 'catfile';
 use File::Basename qw( fileparse );
 
